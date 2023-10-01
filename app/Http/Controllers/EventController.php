@@ -6,18 +6,19 @@ use Illuminate\Http\Request;
 
 use App\Models\Event;
 use App\Models\User;
+use App\Http\Requests\EventRequest;
 
 
 class EventController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
 
-      $search = request('search');
+      // $search = request('search');
 
-      if($search) {
+      if($request -> search) {
 
         $events = Event::where([
-          ['title', 'like', '%'.$search.'%']
+          ['title', 'like', '%'.$request -> search.'%']
         ])->get();
 
       } else {
@@ -31,7 +32,7 @@ class EventController extends Controller
         return view('events.create');
     }
 
-    public function store(Request $request) {
+    public function store(EventRequest $request) {
       
       $event = new Event;
 
@@ -83,11 +84,11 @@ class EventController extends Controller
       return view('events.dashboard', ['events' => $events]);
     }
 
-    public function destroy($id) {
+    public function destroy(Event $event) {
 
-      Event::findOrFail($id)->delete();
-
+      // Event::findOrFail($id)->delete();
+         $event -> delete();
       return redirect('/dashboard')->with('msg', 'Filme excluído com sucesso!');
-    }
+    } 
 
 }

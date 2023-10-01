@@ -5,6 +5,7 @@
 @section('content')
 
 <div id="event-create-container" class="col-md-6 offset-md-3">
+    {{session('message')}}
     <h1>Adicione seu filme</h1>
     <form action="/events" method='POST' enctype='multipart/form-data'>
         @csrf
